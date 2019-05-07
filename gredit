@@ -33,7 +33,7 @@ usage() {
   echo "  -h                  Print this help"
 }
 
-# Pase the opts
+# Parse the options
 while getopts "e:hilrq" opt; do
   case "$opt" in
   e)
@@ -119,28 +119,35 @@ do
   filename="$(echo "$line" | cut -d':' -f1)"
   line_number="$(echo "$line" | cut -d':' -f2)"
 
+  # Only print list if -l is given
   if [ "$list_only" -eq 1 ]; then
     echo "$filename:$line_number"
     continue
   fi
 
+  # Ask for confirmation
   if [ "$confirm" -eq 1 ]; then
     printf %s "Edit $filename:$line_number? [Ynaq] "
     read -r confirmation < /dev/tty
     case "$confirmation" in
       N|n)
+        # Don't edit file
         continue
         ;;
       A|a)
+        # Edit all (disable confirmations)
         confirm=0
         ;;
       Q|q)
+        # Quit
         exit 0
         ;;
       *)
+        # Edit file (default)
         ;;
     esac
   fi
 
+  # Actually open editor
   ${EDITOR:-vi} "+$line_number" "$filename" < /dev/tty
 done
