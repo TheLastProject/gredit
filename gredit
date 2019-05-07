@@ -20,7 +20,7 @@ list_only=0
 # Enable recursive searching in grep
 recursive=0
 
-# Help function.
+# Help function
 usage() {
   printf 'Usage: %s [-ilrqh] [-e exclude] regexp [location]\n' "$(basename "$0")"
   echo
@@ -33,7 +33,7 @@ usage() {
   echo "  -h                  Print this help"
 }
 
-# Pase the ops.
+# Pase the opts
 while getopts "e:hilrq" opt; do
   case "$opt" in
   e)
@@ -113,7 +113,7 @@ done
 # shellcheck disable=SC2086
 results="$(grep $grep_flags "$regexp" $location)"
 
-# Open each result in EDITOR (fall back to vi).
+# Open each result in EDITOR (fall back to vi)
 printf %s "$results" | while IFS= read -r line
 do
   filename="$(echo "$line" | cut -d':' -f1)"
