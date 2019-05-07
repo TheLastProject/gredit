@@ -109,12 +109,10 @@ for exclude in $excludes; do
   grep_flags="--exclude=$exclude --exclude-dir=$exclude $grep_flags"
 done
 
-# Retrieve the results
-# shellcheck disable=SC2086
-results="$(grep $grep_flags "$regexp" $location)"
 
 # Open each result in EDITOR (fall back to vi)
-printf %s "$results" | while IFS= read -r line
+# shellcheck disable=SC2086
+grep $grep_flags "$regexp" $location | while IFS= read -r line
 do
   filename="$(echo "$line" | cut -d':' -f1)"
   line_number="$(echo "$line" | cut -d':' -f2)"
