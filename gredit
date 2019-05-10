@@ -77,7 +77,8 @@ shift $((OPTIND-1))
 
 # Parse the arguments from the script
 regexp="$1"
-location="$2"
+shift
+location="$*"
 
 # Print help if no search string has been passed
 if [ -z "$regexp" ]; then
@@ -108,7 +109,6 @@ fi
 for exclude in $excludes; do
   grep_flags="--exclude=$exclude --exclude-dir=$exclude $grep_flags"
 done
-
 
 # Open each result in EDITOR (fall back to vi)
 # shellcheck disable=SC2086
